@@ -22,9 +22,18 @@ const StartScreen = ({ onStart }) => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.5 }}
-                className="font-serif text-white/70 text-lg md:text-xl mb-12 tracking-widest uppercase"
+                className="font-serif text-white/70 text-lg md:text-xl mb-4 tracking-widest uppercase"
             >
                 Проверь свои знания Хоукинса
+            </motion.p>
+
+            <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.7 }}
+                className="text-st-red/80 text-sm md:text-base mb-12 tracking-wide italic"
+            >
+                Специально для команды Шампунь
             </motion.p>
 
             {/* Settings Controls */}
