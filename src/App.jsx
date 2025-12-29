@@ -4,6 +4,7 @@ import StartScreen from './components/StartScreen';
 import QuestionCard from './components/QuestionCard';
 import ResultScreen from './components/ResultScreen';
 import BackgroundAudio from './components/BackgroundAudio';
+import MatchingGame from './components/MatchingGame';
 import { quizData } from './data/questions';
 
 import { playClick, playCorrect, playWrong, playStart } from './utils/sfx';
@@ -29,6 +30,13 @@ function App() {
 
   const startQuiz = (newSettings) => {
     playStart();
+
+    // Check for matching game mode
+    if (newSettings.gameMode === 'matching') {
+      setGameState('matching');
+      return;
+    }
+
     const { season, suddenDeath } = newSettings;
     setSettings(newSettings);
 
@@ -146,6 +154,18 @@ function App() {
               wrongAnswers={wrongAnswers}
               onRestart={() => setGameState('start')}
             />
+          </motion.div>
+        )}
+
+        {gameState === 'matching' && (
+          <motion.div
+            key="matching"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="relative z-10"
+          >
+            <MatchingGame onExit={() => setGameState('start')} />
           </motion.div>
         )}
       </AnimatePresence>

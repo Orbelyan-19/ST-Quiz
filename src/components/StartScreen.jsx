@@ -105,7 +105,20 @@ const StartScreen = ({ onStart }) => {
                 onClick={() => { playClick(); onStart({ season, suddenDeath, inputMode }); }}
                 className="px-12 py-4 bg-transparent border-2 border-st-red text-st-red font-bold font-body text-2xl tracking-widest hover:bg-st-red hover:text-white transition-all shadow-[0_0_20px_rgba(255,0,0,0.4)]"
             >
-                НАЧАТЬ
+                НАЧАТЬ ВИКТОРИНУ
+            </motion.button>
+
+            <motion.button
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.9 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onMouseEnter={playHover}
+                onClick={() => { playClick(); onStart({ gameMode: 'matching' }); }}
+                className="mt-4 px-8 py-3 bg-transparent border border-zinc-600 text-zinc-400 font-bold font-body text-lg tracking-widest hover:border-blue-500 hover:text-blue-400 transition-all"
+            >
+                🎭 АКТЁРЫ И РОЛИ
             </motion.button>
         </div>
     );

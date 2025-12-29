@@ -55,6 +55,7 @@ export const normalize = (str) => {
 
 /**
  * Checks if the user answer is correct using fuzzy matching.
+ * Very lenient - allows typos, grammatical case differences, and partial matches.
  * @param {string} userAnswer 
  * @param {string} correctAnswer 
  * @returns {boolean}
@@ -63,24 +64,54 @@ export const isFuzzyMatch = (userAnswer, correctAnswer) => {
     const normUser = normalize(userAnswer);
     const normCorrect = normalize(correctAnswer);
 
+    // Empty check
+    if (!normUser || !normCorrect) return false;
+
     // 1. Exact match after normalization
     if (normUser === normCorrect) return true;
 
-    // 2. Substring match (if one contains the other and is substantial length)
-    // This helps with "Ghostbusters" vs "The Ghostbusters" or "Охотники" vs "Охотниками"
-    if ((normCorrect.includes(normUser) || normUser.includes(normCorrect)) && normCorrect.length > 3 && normUser.length > 3) {
-        // Only allow if the length difference isn't too massive (e.g. don't match "cat" to "communication")
-        const lengthDiff = Math.abs(normUser.length - normCorrect.length);
-        if (lengthDiff <= 4) return true;
+    // 2. Substring match (very lenient)
+    // Helps with "Охотники" vs "Охотниками за привидениями"
+    if (normCorrect.includes(normUser) && normUser.length >= 3) {
+        return true;
+    }
+    if (normUser.includes(normCorrect) && normCorrect.length >= 3) {
+        return true;
     }
 
-    // 3. Levenshtein Distance
-    // Allow for typos (approx 20% error rate allowed)
+    // 3. Word-by-word match for multi-word answers
+    // If the correct answer has multiple words, check if user got the main word(s)
+    const correctWords = normCorrect.split(' ').filter(w => w.length > 2);
+    const userWords = normUser.split(' ').filter(w => w.length > 2);
+
+    if (correctWords.length > 1) {
+        // Count how many correct words the user got (with fuzzy matching per word)
+        let matchedWords = 0;
+        for (const cWord of correctWords) {
+            for (const uWord of userWords) {
+                if (cWord.includes(uWord) || uWord.includes(cWord)) {
+                    matchedWords++;
+                    break;
+                }
+                // Allow 2 char difference per word
+                if (levenshteinDistance(cWord, uWord) <= 2) {
+                    matchedWords++;
+                    break;
+                }
+            }
+        }
+        // If user matched at least half the words, accept it
+        if (matchedWords >= Math.ceil(correctWords.length / 2)) {
+            return true;
+        }
+    }
+
+    // 4. Levenshtein Distance (very lenient - 40% error allowed)
     const distance = levenshteinDistance(normUser, normCorrect);
     const maxLen = Math.max(normUser.length, normCorrect.length);
 
-    // Allow up to 3 errors for longer words, or 20% for shorter ones
-    const allowedErrors = Math.min(3, Math.floor(maxLen * 0.3));
+    // Allow up to 40% errors, minimum 3
+    const allowedErrors = Math.max(3, Math.floor(maxLen * 0.4));
 
     return distance <= allowedErrors;
 };

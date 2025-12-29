@@ -1,0 +1,23 @@
+// Character-Actor pairs for matching game
+export const characterActors = [
+    { character: "Одиннадцать / Эл", actor: "Милли Бобби Браун" },
+    { character: "Майк Уилер", actor: "Финн Вулфхард" },
+    { character: "Дастин Хендерсон", actor: "Гейтен Матараццо" },
+    { character: "Лукас Синклер", actor: "Калеб Маклафлин" },
+    { character: "Уилл Байерс", actor: "Ноа Шнапп" },
+    { character: "Джим Хоппер", actor: "Дэвид Харбор" },
+    { character: "Джойс Байерс", actor: "Вайнона Райдер" },
+    { character: "Нэнси Уилер", actor: "Наталия Дайер" },
+    { character: "Джонатан Байерс", actor: "Чарли Хитон" },
+    { character: "Стив Харрингтон", actor: "Джо Кири" },
+    { character: "Робин Бакли", actor: "Майя Хоук" },
+    { character: "Макс Мэйфилд", actor: "Сэди Синк" },
+    { character: "Билли Харгроув", actor: "Дакре Монтгомери" },
+    { character: "Эдди Мансон", actor: "Джозеф Куинн" },
+    { character: "Эрика Синклер", actor: "Присцилла Маклин" },
+    { character: "Мюррей Бауман", actor: "Бретт Гелман" },
+    { character: "Доктор Бреннер", actor: "Мэттью Модайн" },
+    { character: "Боб Ньюби", actor: "Шон Эстин" },
+    { character: "Барб Холланд", actor: "Шеннон Пёрсер" },
+    { character: "Векна / Генри Крил", actor: "Джейми Кэмпбелл Бауэр" },
+];
